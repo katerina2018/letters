@@ -1,74 +1,133 @@
 const cards = [{
         mainLetter: 'а',
+        typeLetter: 'голосна',
         img: ['', 'akula_1.jpg', 'apelsun_2.jpg', 'avtobus_3.jpg'],
         description: ['', 'Акула', 'Апельсин', 'Автобус'],
     },
-    // {
-    //     mainLetter: 'у',
-    //     img: ['', 'akula_1.jpg', 'apelsun_2.jpg', 'avtobus_3.jpg'],
-    //     description: ['', 'Акула', 'Апельсин', 'Автобус'],
-    // },
+    {
+        mainLetter: 'а',
+        typeLetter: 'голосна',
+        img: ['', 'akula_1.jpg', 'apelsun_2.jpg', 'avtobus_3.jpg'],
+        description: ['', 'Акула', 'Апельсин', 'Автобус'],
+    },
+    {
+        mainLetter: 'у',
+        typeLetter: 'голосна',
+        img: ['', 'ukraina_1.jpg', 'uchen_2.jpg', 'udav_4.jpg'],
+        description: ['', 'Україна', 'Учень', 'Удав'],
+    },
+    {
+        mainLetter: 'о',
+        typeLetter: 'голосна',
+        img: ['', 'ogurec_1.jpg', 'orel_2.jpg', 'ovoshi_3.jpg', 'ochki_4.jpg'],
+        description: ['', 'Огірок', 'Орел', 'Овочі', 'Окуляри'],
+    },
+    {
+        mainLetter: 'я',
+        typeLetter: 'голосна',
+        img: ['', 'akula_1.jpg', 'apelsun_2.jpg', 'avtobus_3.jpg'],
+        description: ['', 'Акяла', 'Апеяьсин', 'Автояус'],
+    },
 ];
 
 const containerEl = document.querySelector('.container');
-const buttonEL = document.querySelector('.js-button');
-const mainLetterEL = document.querySelector('.main-letter');
+const navLetterEL = document.querySelector('.nav');
 
-function createMainLetter(cards) {
+let counterLeters = 0;
+
+navLetterEL.addEventListener('click', checkNav);
+
+function checkNav(e) {
+    let cardImgEl = document.querySelector('.card-img');
+    if (cardImgEl) {
+        cardImgEl.remove();
+    }
+    if (e.target.classList.contains('js-nav-right')) {
+        counterLeters += 1;
+
+        if (counterLeters > cards.length - 1) {
+            counterLeters = 0;
+        }
+    } else if (e.target.classList.contains('js-nav-left')) {
+        counterLeters -= 1;
+
+        if (counterLeters < 0) {
+            counterLeters = cards.length - 1;
+        }
+    }
+
+    createMainLetter(cards, counterLeters);
+    let newBtn = createMainButton(cards, counterLeters);
+    newBtn.addEventListener('click', showCard);
+}
+
+function createMainButton(cards, counterLeters) {
+    let buttonEL = document.querySelector('.js-button');
+
+    buttonEL.remove();
+    containerEl.insertAdjacentHTML(
+        'beforeend',
+        `  <button type="button " class="js-button">Почати ${cards[
+      counterLeters
+    ].mainLetter.toUpperCase()}</button>`,
+    );
+    buttonEL = document.querySelector('.js-button');
+    return buttonEL;
+}
+
+function createMainLetter(cards, counterLeters) {
+    const mainLetterEL = document.querySelector('.main-letter');
+    mainLetterEL.remove();
     containerEl.insertAdjacentHTML(
         'afterbegin',
-        ` <h1 class="main-letter">${cards[0].mainLetter.toUpperCase()}${
-      cards[0].mainLetter
+        ` <h1 class="main-letter">${cards[counterLeters].mainLetter.toUpperCase()}${
+      cards[counterLeters].mainLetter
     }</h1>`,
     );
 }
-createMainLetter(cards);
-buttonEL.addEventListener('click', showCard);
+
 let counter = 0;
 
 function showCard() {
     counter += 1;
     containerEl.insertAdjacentHTML('beforeend', createCards(cards));
-    console.log();
+
     const wordEl = document.querySelector('.js-word');
 
     wordEl.addEventListener('click', checkLetter);
 }
 
 function createCards(cards) {
-    const cardImgEl = document.querySelector('.card-img');
-    cardImgEl.remove();
-    buttonEL.textContent = 'Наступне';
-    if (counter >= cards[0].description.length) {
+    let cardImgEl = document.querySelector('.card-img');
+    if (cardImgEl) {
+        cardImgEl.remove();
+    }
+    let buttonEL = document.querySelector('.js-button');
+    buttonEL.textContent = '->';
+    buttonEL.classList.add('continue-card');
+    if (counter >= cards[counterLeters].description.length) {
         counter = 1;
     }
 
-    let mainWord = cards[0].description[counter];
-    // console.log('🚀 ~ createCards ~ mainWord', mainWord);
+    let mainWord = cards[counterLeters].description[counter];
     let row = '';
     for (let i = 0; i < mainWord.length; i += 1) {
         row += `<td>${mainWord[i]}</td>`;
     }
 
-    return cards.map(({ img, description }) => {
-        return ` <div class="card-img"><img src="./img/А/${img[counter]}" alt="${description[counter]}" />
+    return ` <div class="card-img"><img src="./img/${cards[counterLeters].img[counter]}" alt="${cards[counterLeters].description[counter]}" />
           <table class="js-word">
               <tr>
                   ${row}
               </tr>
           </table> </div>`;
-    });
 }
 
 function checkLetter(e) {
     let letterClick = e.target.textContent.toLowerCase();
-    if (cards[0].mainLetter === letterClick) {
-        console.log('🚀 ~ checkLetter ~ letterClick', letterClick);
+    if (cards[counterLeters].mainLetter === letterClick) {
         e.target.classList.add('green-bg');
     } else {
-        console.log('🚀 ~ checkLetter ~ letterClick', letterClick);
         e.target.classList.add('red-bg');
     }
-
-    console.log(e.target);
 }
