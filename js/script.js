@@ -25,8 +25,8 @@ const cards = [{
     {
         mainLetter: 'я',
         typeLetter: 'голосна',
-        img: ['', 'akula_1.jpg', 'apelsun_2.jpg', 'avtobus_3.jpg'],
-        description: ['', 'Акяла', 'Апеяьсин', 'Автояус'],
+        img: ['', 'jabloko_1.jpg', 'jakir_2.jpg', 'jauco.jpg', 'jaxta.jpg'],
+        description: ['', 'Яблоко', 'Якір', 'Яйце', 'Яхта'],
     },
 ];
 
