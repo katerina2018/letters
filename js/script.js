@@ -1,32 +1,53 @@
 const cards = [{
         mainLetter: 'а',
         typeLetter: 'голосна',
-        img: ['', 'akula_1.jpg', 'apelsun_2.jpg', 'avtobus_3.jpg'],
-        description: ['', 'Акула', 'Апельсин', 'Автобус'],
+        img: ['', 'akula_1.jpg', 'apelsun_2.jpg', 'avtobus_3.jpg', 'ukraina_1.jpg'],
+        description: ['', 'Акула', 'Апельсин', 'Автобус', 'Україна'],
     },
     {
         mainLetter: 'а',
         typeLetter: 'голосна',
-        img: ['', 'akula_1.jpg', 'apelsun_2.jpg', 'avtobus_3.jpg'],
-        description: ['', 'Акула', 'Апельсин', 'Автобус'],
+        img: ['', 'akula_1.jpg', 'apelsun_2.jpg', 'avtobus_3.jpg', 'ukraina_1.jpg'],
+        description: ['', 'Акула', 'Апельсин', 'Автобус', 'Україна'],
     },
     {
         mainLetter: 'у',
         typeLetter: 'голосна',
-        img: ['', 'ukraina_1.jpg', 'uchen_2.jpg', 'udav_4.jpg'],
-        description: ['', 'Україна', 'Учень', 'Удав'],
+        img: [
+            '',
+            'ukraina_1.jpg',
+            'uchen_2.jpg',
+            'udav_4.jpg',
+            'akula_1.jpg',
+            'avtobus_3.jpg',
+        ],
+        description: ['', 'Україна', 'Учень', 'Удав', 'Акула', 'Автобус'],
     },
     {
         mainLetter: 'о',
         typeLetter: 'голосна',
-        img: ['', 'ogurec_1.jpg', 'orel_2.jpg', 'ovoshi_3.jpg', 'ochki_4.jpg'],
-        description: ['', 'Огірок', 'Орел', 'Овочі', 'Окуляри'],
+        img: [
+            '',
+            'ogurec_1.jpg',
+            'orel_2.jpg',
+            'ovoshi_3.jpg',
+            'ochki_4.jpg',
+            'jabloko_1.jpg',
+        ],
+        description: ['', 'Огірок', 'Орел', 'Овочі', 'Окуляри', 'Яблоко'],
     },
     {
         mainLetter: 'я',
         typeLetter: 'голосна',
-        img: ['', 'jabloko_1.jpg', 'jakir_2.jpg', 'jauco.jpg', 'jaxta.jpg'],
-        description: ['', 'Яблоко', 'Якір', 'Яйце', 'Яхта'],
+        img: [
+            '',
+            'jabloko_1.jpg',
+            'jakir_2.jpg',
+            'jauco.jpg',
+            'jaxta.jpg',
+            'ochki_4.jpg',
+        ],
+        description: ['', 'Яблоко', 'Якір', 'Яйце', 'Яхта', 'Окуляри'],
     },
 ];
 
@@ -122,12 +143,29 @@ function createCards(cards) {
               </tr>
           </table> </div>`;
 }
+let checkAnswer = 0;
 
 function checkLetter(e) {
+    let totalMainLetter = 0;
+
+    let currentWord = cards[counterLeters].description[counter].toLowerCase();
     let letterClick = e.target.textContent.toLowerCase();
     if (cards[counterLeters].mainLetter === letterClick) {
         e.target.classList.add('green-bg');
+        checkAnswer += 1;
     } else {
         e.target.classList.add('red-bg');
+    }
+
+    for (let i = 0; i < currentWord.length; i += 1) {
+        if (currentWord[i] === cards[counterLeters].mainLetter) {
+            totalMainLetter += 1;
+        }
+    }
+
+    if (totalMainLetter === checkAnswer) {
+        showCard();
+
+        checkAnswer = 0;
     }
 }
