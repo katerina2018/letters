@@ -1,115 +1,110 @@
-const cards = [{
-        mainLetter: 'а',
-        typeLetter: 'голосна',
-        img: ['', 'akula_1.jpg', 'apelsun_2.jpg', 'avtobus_3.jpg'],
-        description: ['', 'Акула', 'Апельсин', 'Автобус'],
-    },
-    {
-        mainLetter: 'а',
-        typeLetter: 'голосна',
-        img: ['', 'akula_1.jpg', 'apelsun_2.jpg', 'avtobus_3.jpg'],
-        description: ['', 'Акула', 'Апельсин', 'Автобус'],
-    },
-    {
-        mainLetter: 'у',
-        typeLetter: 'голосна',
-        img: ['', 'ukraina_1.jpg', 'uchen_2.jpg', 'udav_4.jpg'],
-        description: ['', 'Україна', 'Учень', 'Удав'],
-    },
-    {
-        mainLetter: 'о',
-        typeLetter: 'голосна',
-        img: ['', 'ogurec_1.jpg', 'orel_2.jpg', 'ovoshi_3.jpg', 'ochki_4.jpg'],
-        description: ['', 'Огірок', 'Орел', 'Овочі', 'Окуляри'],
-    },
-    {
-        mainLetter: 'я',
-        typeLetter: 'голосна',
-        img: ['', 'jabloko_1.jpg', 'jakir_2.jpg', 'jauco.jpg', 'jaxta.jpg'],
-        description: ['', 'Яблоко', 'Якір', 'Яйце', 'Яхта'],
-    },
-];
+import cards from './letters.js';
 
+const pageWrapperEL = document.querySelector('.page-wrapper');
+const wrapperEl = document.querySelector('.card-wrapper');
+
+function createCardLetter(cards, wrapperEl) {
+    let allCards = '';
+
+    for (const element of cards) {
+        let typeLetter = 'js-prugolosna';
+        if (element.typeLetter === 'голосна') {
+            typeLetter = 'js-golosna';
+        }
+        allCards += `<div class="card">
+             <h2 class="${typeLetter}">${element.mainLetter.toUpperCase()}${
+      element.mainLetter
+    }</h2>
+             <img src="./img/${element.img[0]}" alt="" />
+             <div class="all-card"></div>
+           </div>`;
+    }
+    wrapperEl.insertAdjacentHTML('beforeend', allCards);
+}
+// ---------------------------------------------------
+createCardLetter(cards, wrapperEl);
+
+wrapperEl.addEventListener('click', show);
+
+function show(e) {
+    const currentCard = e.target.closest('.card');
+    let findLetter;
+    if (currentCard) {
+        findLetter = currentCard.querySelector('h2').textContent;
+        wrapperEl.classList.add('visually-hidden');
+        for (const elem of cards) {
+            if (findLetter[1] === elem.mainLetter) {
+                counterLeters = cards.indexOf(elem);
+            }
+        }
+        createMainLetter(findLetter);
+        showCard(counterLeters);
+        createBtn();
+    }
+}
+
+// ------------------------------------------------------------
 const containerEl = document.querySelector('.container');
 const navLetterEL = document.querySelector('.nav');
 
 let counterLeters = 0;
 
-navLetterEL.addEventListener('click', checkNav);
-
-function checkNav(e) {
-    let cardImgEl = document.querySelector('.card-img');
-    if (cardImgEl) {
-        cardImgEl.remove();
-    }
-    if (e.target.classList.contains('js-nav-right')) {
-        counterLeters += 1;
-
-        if (counterLeters > cards.length - 1) {
-            counterLeters = 0;
-        }
-    } else if (e.target.classList.contains('js-nav-left')) {
-        counterLeters -= 1;
-
-        if (counterLeters < 0) {
-            counterLeters = cards.length - 1;
-        }
-    }
-
-    createMainLetter(cards, counterLeters);
-    let newBtn = createMainButton(cards, counterLeters);
-    newBtn.addEventListener('click', showCard);
-}
-
-function createMainButton(cards, counterLeters) {
-    let buttonEL = document.querySelector('.js-button');
-
-    buttonEL.remove();
-    containerEl.insertAdjacentHTML(
-        'beforeend',
-        `  <button type="button " class="js-button">Почати ${cards[
-      counterLeters
-    ].mainLetter.toUpperCase()}</button>`,
-    );
-    buttonEL = document.querySelector('.js-button');
-    return buttonEL;
-}
-
-function createMainLetter(cards, counterLeters) {
+function createMainLetter(findLetter) {
     const mainLetterEL = document.querySelector('.main-letter');
-    mainLetterEL.remove();
     containerEl.insertAdjacentHTML(
         'afterbegin',
-        ` <h1 class="main-letter">${cards[counterLeters].mainLetter.toUpperCase()}${
-      cards[counterLeters].mainLetter
-    }</h1>`,
+        ` <h1 class="main-letter">${findLetter}</h1>`,
     );
+}
+
+function createBtn() {
+    containerEl.insertAdjacentHTML(
+        'afterbegin',
+        ` <button class="js-button btn-back"><-</button>`,
+    );
+    const buttonEL = document.querySelector('.js-button');
+
+    if (buttonEL) {
+        buttonEL.addEventListener('click', comeBackAbetka);
+    }
+}
+
+function comeBackAbetka() {
+    const mainLetterEL = document.querySelector('.main-letter');
+    mainLetterEL.remove();
+    const mainWordEL = document.querySelector('.card-img');
+    mainWordEL.remove();
+    const buttonEL = document.querySelector('.js-button');
+    buttonEL.remove;
+
+    wrapperEl.classList.remove('visually-hidden');
 }
 
 let counter = 0;
 
-function showCard() {
+function showCard(counterLeters) {
     counter += 1;
-    containerEl.insertAdjacentHTML('beforeend', createCards(cards));
+    containerEl.insertAdjacentHTML(
+        'beforeend',
+        createCards(cards, counterLeters),
+    );
 
     const wordEl = document.querySelector('.js-word');
 
     wordEl.addEventListener('click', checkLetter);
 }
 
-function createCards(cards) {
+function createCards(cards, findLetter) {
     let cardImgEl = document.querySelector('.card-img');
     if (cardImgEl) {
         cardImgEl.remove();
     }
-    let buttonEL = document.querySelector('.js-button');
-    buttonEL.textContent = '->';
-    buttonEL.classList.add('continue-card');
-    if (counter >= cards[counterLeters].description.length) {
-        counter = 1;
-    }
 
+    if (counter >= cards[counterLeters].description.length) {
+        counter = 0;
+    }
     let mainWord = cards[counterLeters].description[counter];
+
     let row = '';
     for (let i = 0; i < mainWord.length; i += 1) {
         row += `<td>${mainWord[i]}</td>`;

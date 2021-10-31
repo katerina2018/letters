@@ -11,6 +11,52 @@
     font-family: 'Tahoma', sans-serif;
     font-weight: 700;
     position: relative;
+    text-align: center;
+}
+
+h1,
+h2 {
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    display: block;
+}
+
+.card-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    text-align: center;
+}
+
+
+/* .card-wrapper div {
+   
+} */
+
+.card {
+    margin: 5px;
+    border: 1px solid #000;
+    width: calc((100% - 36px) /3);
+    height: inherit;
+    position: relative;
+}
+
+.all-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(251, 254, 255, 0.1);
+}
+
+.card-wrapper img {
+    margin-top: 20px;
+    width: 100%;
+    height: auto;
 }
 
 .main-letter {
@@ -19,6 +65,14 @@
     font-weight: 400;
     margin: 0;
     padding: 0;
+}
+
+.js-golosna {
+    color: #c81111;
+}
+
+.js-prugolosna {
+    color: #100292;
 }
 
 .nav {
@@ -74,4 +128,24 @@ button {
     right: 50px;
     bottom: 200px;
     border-radius: 50%;
+}
+
+.btn-back {
+    position: absolute;
+    left: 50px;
+    top: 100px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
 }
